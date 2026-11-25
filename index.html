@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bloom, tu espacio personal para crear hábitos y crecer cada día.">
+    <title>Bloom | Habit Tracker</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+    <header class="topbar">
+        <a href="#" class="brand">
+            <span class="brand-icon">✿</span>
+            <span>Bloom</span>
+        </a>
+
+        <div class="topbar-right">
+            <span class="today-label" id="todayLabel"></span>
+            <div class="profile-icon">B</div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="welcome">
+            <div>
+                <span class="eyebrow">TU ESPACIO PERSONAL</span>
+                <h1>Cada día es una nueva oportunidad para florecer.</h1>
+                <p>Pequeños hábitos, grandes cambios. 🌷</p>
+            </div>
+            <div class="flower-decoration">✿</div>
+        </section>
+
+        <section class="progress-section">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">TU PROGRESO</span>
+                    <h2>Hoy en Bloom</h2>
+                </div>
+                <span class="progress-date" id="progressDate"></span>
+            </div>
+
+            <div class="progress-card">
+                <div class="progress-info">
+                    <div>
+                        <strong id="progressCount">0 de 0</strong>
+                        <p>Hábitos completados</p>
+                    </div>
+                    <span id="progressPercent">0%</span>
+                </div>
+
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+                <p class="progress-message" id="progressMessage">
+                    ¡Comencemos a florecer!
+                </p>
+            </div>
+        </section>
+
+        <section class="habit-section">
+
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">TUS PEQUEÑOS LOGROS</span>
+                    <h2>Mis hábitos</h2>
+                    <p class="section-description">
+                        Cada pequeño paso cuenta.
+                    </p>
+                </div>
+
+                <button class="add-button" id="openForm">
+                    <span>＋</span> Nuevo hábito
+                </button>
+            </div>
+
+            <div class="habit-filters" id="filters">
+                <button class="filter active" data-filter="Todos">Todos</button>
+                <button class="filter" data-filter="Salud">Salud</button>
+                <button class="filter" data-filter="Bienestar">Bienestar</button>
+                <button class="filter" data-filter="Aprendizaje">Aprendizaje</button>
+                <button class="filter" data-filter="Personal">Personal</button>
+            </div>
+
+            <div class="habit-grid" id="habitList">
+                <p class="empty-state">Preparando tus hábitos... 🌷</p>
+            </div>
+
+        </section>
+
+        <section class="quote-card">
+            <span>♡</span>
+            <p>No tienes que hacerlo todo hoy. Solo necesitas comenzar.</p>
+            <small>UN RECORDATORIO DE BLOOM</small>
+        </section>
+
+        <footer>
+            <p>Hecho con cariño ♡ Bloom © 2026</p>
+        </footer>
+
+    </main>
+
+    <div class="modal hidden" id="habitModal">
+        <div class="modal-card">
+            <button class="close-button" id="closeForm" aria-label="Cerrar">×</button>
+
+            <span class="eyebrow">UN NUEVO COMIENZO</span>
+            <h2 id="modalTitle">Crear un hábito</h2>
+            <p class="section-description">
+                ¿Qué pequeño paso quieres agregar a tu día?
+            </p>
+
+            <form id="habitForm">
+                <label for="habitName">Nombre del hábito</label>
+                <input
+                    type="text"
+                    id="habitName"
+                    placeholder="Ej. Beber más agua"
+                    maxlength="80"
+                    required
+                >
+
+                <label for="habitCategory">Categoría</label>
+                <select id="habitCategory" required>
+                    <option value="">Selecciona una categoría</option>
+                    <option value="Salud">Salud</option>
+                    <option value="Bienestar">Bienestar</option>
+                    <option value="Aprendizaje">Aprendizaje</option>
+                    <option value="Personal">Personal</option>
+                </select>
+
+                <button type="submit" class="save-button" id="saveButton">
+                    Guardar hábito ♡
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <p class="status-message" id="statusMessage" role="status"></p>
+
+    <script src="app.js"></script>
+</body>
+</html>
