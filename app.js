@@ -113,7 +113,7 @@ document.addEventListener("keydown", (event) => {
 
 async function loadHabits() {
     habitList.innerHTML =
-        '<p class="empty-state">Cargando tus hábitos... 🌷</p>';
+        '<p class="empty-state">Cargando tus hábitos...</p>';
 
     const today = getToday();
 
@@ -126,6 +126,7 @@ async function loadHabits() {
         notify("Error al consultar hábitos: " + habitError.message);
         habitList.innerHTML =
             '<p class="empty-state">No se pudieron cargar los hábitos.</p>';
+        hideWelcome();
         return;
     }
 
@@ -136,6 +137,9 @@ async function loadHabits() {
 
     if (logError) {
         notify("Error al consultar progreso: " + logError.message);
+        habitList.innerHTML =
+            '<p class="empty-state">No se pudo cargar el progreso.</p>';
+        hideWelcome();
         return;
     }
 
@@ -147,7 +151,81 @@ async function loadHabits() {
 
     renderHabits();
     updateProgress();
+
+    hideWelcome();
 }
+
+/* =================================
+   BLOOM - BIENVENIDA INTERACTIVA
+================================= */
+
+const welcomeStartedAt = Date.now();
+
+function initializeWelcomeScreen() {
+    const tileContainer = document.getElementById("welcomeTiles");
+
+    if (!tileContainer) return;
+
+    // Crear los 25 cuadritos
+    for (let i = 0; i < 25; i++) {
+        const tile = document.createElement("div");
+        tile.className = "welcome-tile";
+        tileContainer.appendChild(tile);
+    }
+
+    const tiles = tileContainer.querySelectorAll(".welcome-tile");
+
+    // Reacción al movimiento del mouse
+    tileContainer.addEventListener("pointermove", (event) => {
+        const rect = tileContainer.getBoundingClientRect();
+
+        const mouseX = event.clientX;
+        const mouseY = event.clientY;
+
+        tiles.forEach(tile => {
+            const tileRect = tile.getBoundingClientRect();
+
+            const centerX = tileRect.left + tileRect.width / 2;
+            const centerY = tileRect.top + tileRect.height / 2;
+
+            const dx = mouseX - centerX;
+            const dy = mouseY - centerY;
+
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const influence = Math.max(0, 1 - distance / 180);
+
+            const rotateX = (dy / 180) * 22 * influence;
+            const rotateY = -(dx / 180) * 22 * influence;
+
+            tile.style.transform =
+                `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${1 + influence * 0.08})`;
+        });
+    });
+
+    // Regresar los cuadritos a su posición
+    tileContainer.addEventListener("pointerleave", () => {
+        tiles.forEach(tile => {
+            tile.style.transform = "rotateX(0deg) rotateY(0deg) scale(1)";
+        });
+    });
+}
+
+// Ocultar bienvenida después de un mínimo de 2.8 segundos
+function hideWelcome() {
+    const welcomeScreen = document.getElementById("welcomeScreen");
+
+    if (!welcomeScreen) return;
+
+    const elapsed = Date.now() - welcomeStartedAt;
+    const remaining = Math.max(0, 2800 - elapsed);
+
+    setTimeout(() => {
+        welcomeScreen.classList.add("hide");
+    }, remaining);
+}
+
+// Inicializar la pantalla
+initializeWelcomeScreen();
 
 // =====================================
 // 7. MOSTRAR HABITOS

@@ -526,3 +526,251 @@ input:focus, select:focus {
         padding: 25px 20px;
     }
 }
+
+.welcome-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #f8e9ed;
+    color: #75485a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 45px 7%;
+    overflow: hidden;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.9s ease, visibility 0.9s ease;
+}
+
+.welcome-screen.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.welcome-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 50px;
+}
+
+.welcome-left {
+    animation: welcomeAppear 1.2s ease both;
+}
+
+.welcome-brand {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    margin-bottom: 65px;
+    color: #a65e78;
+}
+
+.welcome-eyebrow {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #b87991;
+    margin-bottom: 18px;
+}
+
+.welcome-left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(55px, 7vw, 95px);
+    font-weight: 400;
+    line-height: 1.05;
+    margin: 0 0 25px;
+    color: #75485a;
+}
+
+.welcome-description {
+    font-size: 15px;
+    color: #956b7b;
+    margin-bottom: 35px;
+}
+
+.welcome-progress {
+    width: 100%;
+    max-width: 320px;
+    height: 4px;
+    background: #e8c7d2;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.welcome-progress-fill {
+    width: 0%;
+    height: 100%;
+    background: #b87991;
+    border-radius: inherit;
+    animation: welcomeLoading 2.8s ease forwards;
+}
+
+.welcome-caption {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #956b7b;
+}
+
+/* CUADRICULA INTERACTIVA */
+
+.welcome-right {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    aspect-ratio: 1;
+    margin: auto;
+    display: grid;
+    place-items: center;
+}
+
+.welcome-tiles {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 9px;
+    perspective: 700px;
+}
+
+.welcome-tile {
+    background: #edcbd6;
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 5px;
+    transform-style: preserve-3d;
+    transition: transform 0.35s ease, background 0.35s ease;
+    box-shadow: 0 3px 12px rgba(150, 95, 115, 0.05);
+}
+
+.welcome-tile:nth-child(3n) {
+    background: #f3dce3;
+}
+
+.welcome-tile:nth-child(4n) {
+    background: #e5bdcc;
+}
+
+.welcome-tile:hover {
+    background: #dba9bb;
+    box-shadow: 0 8px 20px rgba(150, 95, 115, 0.18);
+}
+
+.flower-decoration {
+    position: absolute;
+    z-index: 2;
+    top: -25px;
+    right: 5px;
+    color: #bd8198;
+    font-size: 55px;
+    animation: flowerFloat 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.flower-two {
+    top: auto;
+    right: auto;
+    bottom: -15px;
+    left: -25px;
+    font-size: 38px;
+    animation-delay: 1.5s;
+}
+
+.welcome-footer {
+    text-align: center;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #956b7b;
+    margin-top: 45px;
+    animation: welcomeAppear 1.8s ease both;
+}
+
+/* ANIMACIONES */
+
+@keyframes welcomeLoading {
+    from { width: 0%; }
+    to { width: 100%; }
+}
+
+@keyframes welcomeAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes flowerFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(-8deg);
+    }
+    50% {
+        transform: translateY(-12px) rotate(8deg);
+    }
+}
+
+/* CELULARES Y TABLETS */
+
+@media (max-width: 700px) {
+    .welcome-screen {
+        padding: 30px 7%;
+    }
+
+    .welcome-content {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .welcome-brand {
+        margin-bottom: 35px;
+    }
+
+    .welcome-left h1 {
+        font-size: 60px;
+    }
+
+    .welcome-right {
+        max-width: 290px;
+    }
+
+    .welcome-footer {
+        margin-top: 35px;
+        line-height: 1.8;
+    }
+}
+
+@media (max-width: 430px) {
+    .welcome-left h1 {
+        font-size: 52px;
+    }
+
+    .welcome-description {
+        font-size: 13px;
+    }
+
+    .welcome-right {
+        max-width: 245px;
+    }
+
+    .welcome-tiles {
+        gap: 6px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .welcome-screen,
+    .welcome-left,
+    .welcome-footer,
+    .welcome-progress-fill,
+    .flower-decoration {
+        animation: none;
+        transition: none;
+    }
+}
